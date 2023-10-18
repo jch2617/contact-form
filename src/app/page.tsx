@@ -9,17 +9,18 @@ import styles from './page.module.css'
 */
 
 const defaultBlue = "#0087AA";
+const hoverBlue = "#1997B7";
 
 const textFieldStyles = {
   background: '#ffffff',
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: '#1997B7',
+      borderColor: hoverBlue,
     },
     '&:hover fieldset': {
-      borderColor: '#1997B7',
+      borderColor: hoverBlue,
     },
-    "&.Mui-focused": {
+    "& .Mui-focused": {
       border: defaultBlue,
     }
   },
@@ -48,7 +49,7 @@ export default function Home() {
             sx={{
               backgroundColor: defaultBlue,
               ":hover": {
-                backgroundColor: '#1997B7'
+                backgroundColor: hoverBlue
               }
             }}
           >
