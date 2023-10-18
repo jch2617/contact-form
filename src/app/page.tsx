@@ -1,94 +1,60 @@
-import Image from 'next/image'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import styles from './page.module.css'
+
+/* TODO
+- check mobile
+- clean up css
+- validations
+- form state
+*/
+
+const defaultBlue = "#0087AA";
+
+const textFieldStyles = {
+  background: '#ffffff',
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#1997B7',
+    },
+    '&:hover fieldset': {
+      borderColor: '#1997B7',
+    },
+    "&.Mui-focused": {
+      border: defaultBlue,
+    }
+  },
+  '& .MuiFormLabel-root': {
+    color: defaultBlue,
+  },
+}
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <Box className={styles.form}>
+          <Typography variant="h5">Contact Us Form</Typography>
+          <TextField label="First Name" sx={textFieldStyles}>First Name</TextField>
+          <TextField label="Last Name" sx={textFieldStyles}>Last Name</TextField>
+          <TextField label="Email" sx={textFieldStyles}>Email</TextField>
+          <TextField
+            label="Message"
+            multiline
+            minRows={4}
+            sx={textFieldStyles}
+          />    
+          <Button 
+            variant="contained" 
+            sx={{
+              backgroundColor: defaultBlue,
+              ":hover": {
+                backgroundColor: '#1997B7'
+              }
+            }}
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+            Submit
+          </Button>  
+        </Box>
       </div>
     </main>
   )
