@@ -40,6 +40,19 @@ const PersonEdit: React.FC = () => {
     setFormData({ ...formData, email: e.target.value });
   };
 
+  const submitForm = async () => {
+    console.log(formData);
+    const response = await fetch("../../pages/api/formSubmissions", {
+      method: "POST",
+      body: JSON.stringify({ formData }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const data = response.json();
+    console.log(data);
+  };
+
   return (
     <Box
       sx={{
@@ -98,6 +111,7 @@ const PersonEdit: React.FC = () => {
         }}
         onClick={() => {
           console.log(formData);
+          // submitForm();
         }}
       >
         Submit

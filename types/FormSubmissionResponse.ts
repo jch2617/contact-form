@@ -1,6 +1,6 @@
 export type FormSubmissionRequest = {
   firstName: string;
-  lastName: number;
+  lastName: string;
   email: string;
   message?: string | null;
 };
