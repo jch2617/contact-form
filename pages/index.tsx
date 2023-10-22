@@ -2,11 +2,12 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import type { ReactElement } from "react";
 import { useState } from "react";
+import TooltipDatagridCell from "../public/components/TooltipDatagridCell";
 import Layout from "../public/components/layout";
 import styles from "../src/app/page.module.css";
-import { FormSubmissionResponse } from "../types/FormSubmissionRequest";
+import { FormSubmissionResponse } from "../types/FormSubmissionResponse";
 import type { NextPageWithLayout } from "./_app";
-import TooltipDatagridCell from "../public/components/TooltipDatagridCell";
+import { Fira_Code } from "next/font/google";
 
 const defaultBlue = "#0087AA";
 const hoverBlue = "#1997B7";
@@ -33,7 +34,10 @@ const textFieldStyles = {
 };
 
 const ContactForm: React.FC = () => {
-  const [formData, setFormData] = useState({});
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
   const [formSubmissions, setFormSubmissions] = useState<
     FormSubmissionResponse[]
@@ -45,7 +49,7 @@ const ContactForm: React.FC = () => {
   const handleChangeEmail = (e: any) => {
     const reg = new RegExp(emailPattern);
     setIsValidEmail(reg.test(e.target.value));
-    setFormData({ ...formData, email: e.target.value });
+    setEmail(e.target.value);
   };
 
   const getSubmissions = async () => {
@@ -57,13 +61,17 @@ const ContactForm: React.FC = () => {
   const submitForm = async () => {
     const response = await fetch("./api/formSubmissions", {
       method: "POST",
-      body: JSON.stringify({ formData }),
+      body: JSON.stringify({ firstName, lastName, email, message }),
       headers: {
         "Content-type": "application/json",
       },
     });
     await response.json();
 
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setMessage("");
     getSubmissions();
   };
 
@@ -136,10 +144,13 @@ const ContactForm: React.FC = () => {
       >
         <Typography variant="h5">Contact Us</Typography>
         <TextField
+          required
+          error={firstName.length === 0}
           label="First Name"
           sx={textFieldStyles}
+          value={firstName}
           onChange={(e) => {
-            setFormData({ ...formData, firstName: e.target.value });
+            setFirstName(e.target.value);
           }}
         >
           First Name
@@ -147,16 +158,19 @@ const ContactForm: React.FC = () => {
         <TextField
           label="Last Name"
           sx={textFieldStyles}
+          value={lastName}
           onChange={(e) => {
-            setFormData({ ...formData, lastName: e.target.value });
+            setLastName(e.target.value);
           }}
         >
           Last Name
         </TextField>
         <TextField
+          required
           label="Email"
           sx={textFieldStyles}
-          error={!isValidEmail}
+          value={email}
+          error={!isValidEmail || lastName.length === 0}
           onChange={(e) => {
             handleChangeEmail(e);
           }}
@@ -164,16 +178,24 @@ const ContactForm: React.FC = () => {
           Email
         </TextField>
         <TextField
+          required
           label="Message"
+          error={message.length === 0}
           multiline
           minRows={4}
           sx={textFieldStyles}
+          value={message}
           onChange={(e) => {
-            setFormData({ ...formData, message: e.target.value });
+            setMessage(e.target.value);
           }}
         />
         <Button
-          disabled={!isValidEmail}
+          disabled={
+            !isValidEmail ||
+            firstName.length === 0 ||
+            email.length === 0 ||
+            message.length === 0
+          }
           variant="contained"
           sx={{
             backgroundColor: defaultBlue,
