@@ -41,7 +41,6 @@ const PersonEdit: React.FC = () => {
   };
 
   const submitForm = async () => {
-    console.log(formData);
     const response = await fetch("../../pages/api/formSubmissions", {
       method: "POST",
       body: JSON.stringify({ formData }),
@@ -49,7 +48,7 @@ const PersonEdit: React.FC = () => {
         "Content-type": "application/json",
       },
     });
-    const data = response.json();
+    const data = await response.json();
     console.log(data);
   };
 
@@ -110,8 +109,7 @@ const PersonEdit: React.FC = () => {
           },
         }}
         onClick={() => {
-          console.log(formData);
-          // submitForm();
+          return submitForm();
         }}
       >
         Submit
