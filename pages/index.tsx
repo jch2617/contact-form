@@ -33,7 +33,9 @@ const textFieldStyles = {
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({});
   const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
-  const [formSubmissions, setFormSubmissions] = useState([]);
+  const [formSubmissions, setFormSubmissions] = useState<
+    FormSubmissionResponse[]
+  >([]);
 
   const emailPattern =
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -51,10 +53,6 @@ const ContactForm: React.FC = () => {
     setFormSubmissions(data);
   };
 
-  useEffect(() => {
-    getSubmissions();
-  }, []);
-
   const submitForm = async () => {
     const response = await fetch("./api/formSubmissions", {
       method: "POST",
@@ -66,6 +64,10 @@ const ContactForm: React.FC = () => {
     const data = await response.json();
     console.log(data);
   };
+
+  useEffect(() => {
+    getSubmissions();
+  }, [submitForm]);
 
   return (
     <>
