@@ -1,10 +1,12 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import type { ReactElement } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Layout from "../public/components/layout";
 import styles from "../src/app/page.module.css";
-import type { NextPageWithLayout } from "./_app";
 import { FormSubmissionResponse } from "../types/FormSubmissionRequest";
+import type { NextPageWithLayout } from "./_app";
+import TooltipDatagridCell from "../public/components/TooltipDatagridCell";
 
 const defaultBlue = "#0087AA";
 const hoverBlue = "#1997B7";
@@ -49,7 +51,6 @@ const ContactForm: React.FC = () => {
   const getSubmissions = async () => {
     const response = await fetch("../api/formSubmissions");
     const data = await response.json();
-    console.log(data);
     setFormSubmissions(data);
   };
 
@@ -61,13 +62,55 @@ const ContactForm: React.FC = () => {
         "Content-type": "application/json",
       },
     });
-    const data = await response.json();
-    console.log(data);
+    await response.json();
+
+    getSubmissions();
   };
 
-  useEffect(() => {
-    getSubmissions();
-  }, [submitForm]);
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 150,
+      renderCell: (params: GridRenderCellParams) => (
+        <TooltipDatagridCell displayValue={params.value} />
+      ),
+    },
+    {
+      field: "firstName",
+      headerName: "First name",
+      width: 130,
+      renderCell: (params: GridRenderCellParams) => (
+        <TooltipDatagridCell displayValue={params.value} />
+      ),
+    },
+    {
+      field: "lastName",
+      headerName: "Last name",
+      width: 130,
+      renderCell: (params: GridRenderCellParams) => (
+        <TooltipDatagridCell displayValue={params.value} />
+      ),
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      type: "string",
+      width: 250,
+      renderCell: (params: GridRenderCellParams) => (
+        <TooltipDatagridCell displayValue={params.value} />
+      ),
+    },
+    {
+      field: "message",
+      headerName: "Message",
+      sortable: false,
+      width: 400,
+      renderCell: (params: GridRenderCellParams) => (
+        <TooltipDatagridCell displayValue={params.value} />
+      ),
+    },
+  ];
 
   return (
     <>
@@ -83,14 +126,15 @@ const ContactForm: React.FC = () => {
           zIndex: 2,
           fontFamily: "var(--font-mono)",
           position: "relative",
-          margin: 0,
+          margin: "0 auto",
+          marginBottom: "20px",
           padding: "1rem",
           backgroundColor: "rgba(var(--callout-rgb), 0.5)",
           border: "1px solid rgba(var(--callout-border-rgb), 0.3)",
           borderRadius: "var(--border-radius)",
         }}
       >
-        <Typography variant="h5">Contact Us Form</Typography>
+        <Typography variant="h5">Contact Us</Typography>
         <TextField
           label="First Name"
           sx={textFieldStyles}
@@ -143,15 +187,20 @@ const ContactForm: React.FC = () => {
         </Button>
       </Box>
       <Box>
-        <Typography>Form Submissions</Typography>
-        {formSubmissions.map((s: FormSubmissionResponse) => {
-          // TODO make a table
-          return (
-            <div key={s.id}>
-              {s.email} {s.message}
-            </div>
-          );
-        })}
+        {formSubmissions.length > 0 ? (
+          <>
+            <Typography>Form Submissions</Typography>
+            <DataGrid
+              columns={columns}
+              rows={formSubmissions || []}
+              disableRowSelectionOnClick
+              disableColumnMenu
+              checkboxSelection
+            />
+          </>
+        ) : (
+          <></>
+        )}
       </Box>
     </>
   );
