@@ -1,3 +1,3 @@
-import { FormSubmissionResponse } from "../types/FormSubmissionRequest";
+import { FormSubmissionResponse } from "../types/FormSubmissionResponse";
 
 export const formSubmissions: FormSubmissionResponse[] = [];
