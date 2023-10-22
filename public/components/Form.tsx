@@ -27,7 +27,7 @@ const textFieldStyles = {
   },
 };
 
-const PersonEdit: React.FC = () => {
+const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({});
   const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
 
@@ -118,4 +118,4 @@ const PersonEdit: React.FC = () => {
   );
 };
 
-export default PersonEdit;
+export default ContactForm;
