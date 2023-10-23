@@ -7,7 +7,6 @@ import Layout from "../public/components/layout";
 import styles from "../src/app/page.module.css";
 import { FormSubmissionResponse } from "../types/FormSubmissionResponse";
 import type { NextPageWithLayout } from "./_app";
-import { Fira_Code } from "next/font/google";
 
 const defaultBlue = "#0087AA";
 const hoverBlue = "#1997B7";
