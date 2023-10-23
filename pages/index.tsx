@@ -218,6 +218,9 @@ const ContactForm: React.FC = () => {
               disableRowSelectionOnClick
               disableColumnMenu
               checkboxSelection
+              sx={{
+                backgroundColor: "#ffffff",
+              }}
             />
           </>
         ) : (
